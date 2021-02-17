@@ -1,15 +1,15 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import * as express from 'express';
+import express from 'express';
+import bodyParser from 'body-parser';
+import usersController from './app/controllers/users.controller';
+import bitcoinController from './app/controllers/bitcoin.controller';
 
 const app = express();
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to api!' });
-});
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use('/api/users', usersController);
+app.use('/api/bitcoin', bitcoinController);
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {

@@ -1,8 +1,8 @@
 import express from 'express';
 import { usersRepository } from '../data/users.repository';
-import { serializeUser } from '../models/user.nodel';
 import { transferMoneyService } from '../usecases/transfer-money.service';
 import { bitcoinService } from '../usecases/bitcoin.service';
+import { loggerService } from '../logger/logger.service';
 
 const router = express.Router();
 
@@ -10,18 +10,39 @@ router.post('/', (req, res) => {
   // Validate user input
   const { name, username, email } = req.body;
 
+  loggerService.log('POST Users started', 'Users Controller');
+
   const createdUser = usersRepository.add({
     name,
     username,
     email,
   });
 
-  res.json({ ...createdUser });
+  res.json(createdUser);
+});
+
+router.use('/:id', (req, res, next) => {
+  loggerService.log(`UserId middleware: checking user`, 'Users Controller');
+
+  const user = usersRepository.findById(req.params.id);
+
+  if (user) {
+    loggerService.log(`User ${req.params.id} found`, 'Users Controller');
+    next();
+  } else {
+    loggerService.error(`User ${req.params.id} not found`);
+    res.status(404).send({ message: 'User not found' });
+  }
 });
 
 router.post('/:id/usd', (req, res) => {
   // validate req.body params
   const { amount, action } = req.body;
+
+  loggerService.log(
+    `POST users/usd started: ${action} ${amount}$`,
+    'Users Controller'
+  );
 
   try {
     const updated =
@@ -39,6 +60,11 @@ router.post('/:id/bitcoins', (req, res) => {
   // validate req.body params
   const { amount, action } = req.body;
 
+  loggerService.log(
+    `POST users/bitcoins started: ${action} ${amount}$`,
+    'Users Controller'
+  );
+
   try {
     const updated =
       action === 'buy'
@@ -52,6 +78,8 @@ router.post('/:id/bitcoins', (req, res) => {
 });
 
 router.get('/:id/balance', (req, res) => {
+  loggerService.log(`Get users/balance started`, 'Users Controller');
+
   const balance = bitcoinService.calculateBalance(req.params.id);
 
   res.json({
@@ -71,23 +99,13 @@ router.put('/:id', (req, res) => {
 
   const user = usersRepository.findById(req.params.id);
 
-  if (user) {
-    res.json({ ...serializeUser(user) });
-  } else {
-    res.status(404).send({ message: 'User not found' });
-  }
+  res.json(user);
 });
 
 router.get('/:id', (req, res) => {
   const user = usersRepository.findById(req.params.id);
 
-  if (user) {
-    res.send({
-      ...serializeUser(user),
-    });
-  } else {
-    res.status(404).send({ message: 'User not found' });
-  }
+  res.send(user);
 });
 
 export default router;

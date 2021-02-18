@@ -10,11 +10,3 @@ export interface User {
 }
 
 export type UserInput = Pick<User, 'name' | 'email' | 'username'>;
-
-export function serializeUser(user: User) {
-  return {
-    ...user,
-    updatedAt: user.updatedAt ? user.updatedAt.toISOString() : null,
-    createdAt: user.createdAt.toISOString(),
-  };
-}

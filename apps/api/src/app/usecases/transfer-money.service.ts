@@ -2,11 +2,14 @@ import { usersRepository, UsersRepository } from '../data/users.repository';
 import { AccountEntity } from '../entities/account.entity';
 import { MoneyEntity } from '../entities/money.entity';
 import { NotEnoughMoneyException } from '../errors/custom-errors';
+import { loggerService } from '../logger/logger.service';
 
 export class TransferMoneyService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   deposit(userId: string, amount: number) {
+    loggerService.log(`Making deposit for ${userId}`, 'TransferMoneyService');
+
     const user = this.usersRepository.findById(userId);
     const account = new AccountEntity(user.id, MoneyEntity.of(user.usdBalance));
 
@@ -18,6 +21,8 @@ export class TransferMoneyService {
   }
 
   withdraw(userId: string, amount: number) {
+    loggerService.log(`Making withdraw for ${userId}`, 'TransferMoneyService');
+
     const user = this.usersRepository.findById(userId);
     const account = new AccountEntity(user.id, MoneyEntity.of(user.usdBalance));
 

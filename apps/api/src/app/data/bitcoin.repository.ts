@@ -1,4 +1,5 @@
 import { Bitcoin } from '../models/bitcoin.model';
+import { loggerService } from '../logger/logger.service';
 
 export class BitcoinRepository {
   private _bitcoin: Bitcoin = {
@@ -10,11 +11,12 @@ export class BitcoinRepository {
     return this._bitcoin;
   }
 
-  getPrice(): number {
-    return this._bitcoin.price;
-  }
-
   updatePrice(price: number) {
+    loggerService.log(
+      `Updating bitcoin price to ${price}`,
+      'Bitcoin Repository'
+    );
+
     this._bitcoin = {
       price,
       updatedAt: new Date(),

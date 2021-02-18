@@ -1,5 +1,6 @@
 import { User, UserInput } from '../models/user.nodel';
 import { v4 as uuid } from 'uuid';
+import { loggerService } from '../logger/logger.service';
 
 export class UsersRepository {
   users: User[] = [];
@@ -9,6 +10,8 @@ export class UsersRepository {
   }
 
   update(id: string, params: Partial<UserInput>) {
+    loggerService.log(`Updating user ${id}`, 'Users Repository');
+
     this.users = this.users.map((user) => {
       if (user.id === id) {
         return {
@@ -24,6 +27,11 @@ export class UsersRepository {
   }
 
   add(params: UserInput): User {
+    loggerService.log(
+      `Adding new user ${JSON.stringify(params)}`,
+      'Users Repository'
+    );
+
     const newUser = {
       ...params,
       id: uuid(),
@@ -33,6 +41,8 @@ export class UsersRepository {
       updatedAt: null,
     };
     this.users.push(newUser);
+
+    loggerService.log(`User added ${newUser.id}`, 'Users Repository');
 
     return newUser;
   }

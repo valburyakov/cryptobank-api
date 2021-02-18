@@ -10,8 +10,8 @@ import {
   NotEnoughMoneyException,
 } from '../errors/custom-errors';
 import { BitcoinEntity } from '../entities/bitcoin.entity';
-import { AccountEntity } from '../entities/account.entity';
 import { User } from '../models/user.nodel';
+import { loggerService } from '../logger/logger.service';
 
 export class BitcoinService {
   constructor(
@@ -29,6 +29,11 @@ export class BitcoinService {
   }
 
   buy(userId: string, amount: number): User {
+    loggerService.log(
+      `Buying ${amount} bitcoins for ${userId}`,
+      'BitcoinService'
+    );
+
     const user = this.usersRepository.findById(userId);
     const bitcoin = this.bitcoinRepository.bitcoin;
 
@@ -58,6 +63,11 @@ export class BitcoinService {
   }
 
   sell(userId: string, amount: number): User {
+    loggerService.log(
+      `Selling ${amount} bitcoins for ${userId}`,
+      'BitcoinService'
+    );
+
     const user = this.usersRepository.findById(userId);
     const bitcoin = this.bitcoinRepository.bitcoin;
 
@@ -87,6 +97,8 @@ export class BitcoinService {
   }
 
   calculateBalance(userId: string): number {
+    loggerService.log(`Calculating balance`, 'BitcoinService');
+
     const user = this.usersRepository.findById(userId);
     const bitcoin = this.bitcoinRepository.bitcoin;
 

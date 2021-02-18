@@ -3,11 +3,17 @@ import { usersRepository } from '../data/users.repository';
 import { transferMoneyService } from '../usecases/transfer-money.service';
 import { bitcoinService } from '../usecases/bitcoin.service';
 import { loggerService } from '../logger/logger.service';
+import { validateSchema } from '../validation/joi-middleware';
+import {
+  bitcoinSchema,
+  updateUserSchema,
+  usdSchema,
+  userSchema,
+} from '../validation/schemas';
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  // Validate user input
+router.post('/', validateSchema(userSchema), (req, res) => {
   const { name, username, email } = req.body;
 
   loggerService.log('POST Users started', 'Users Controller');
@@ -35,8 +41,7 @@ router.use('/:id', (req, res, next) => {
   }
 });
 
-router.post('/:id/usd', (req, res) => {
-  // validate req.body params
+router.post('/:id/usd', validateSchema(usdSchema), (req, res) => {
   const { amount, action } = req.body;
 
   loggerService.log(
@@ -56,12 +61,11 @@ router.post('/:id/usd', (req, res) => {
   }
 });
 
-router.post('/:id/bitcoins', (req, res) => {
-  // validate req.body params
+router.post('/:id/bitcoins', validateSchema(bitcoinSchema), (req, res) => {
   const { amount, action } = req.body;
 
   loggerService.log(
-    `POST users/bitcoins started: ${action} ${amount}$`,
+    `POST users/bitcoins started: ${action} ${amount}`,
     'Users Controller'
   );
 
@@ -87,8 +91,7 @@ router.get('/:id/balance', (req, res) => {
   });
 });
 
-router.put('/:id', (req, res) => {
-  // Validate params
+router.put('/:id', validateSchema(updateUserSchema), (req, res) => {
   const { name, username, email } = req.body;
 
   usersRepository.update(req.params.id, {

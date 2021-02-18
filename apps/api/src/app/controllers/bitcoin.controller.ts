@@ -1,9 +1,11 @@
 import express from 'express';
 import { bitcoinService } from '../usecases/bitcoin.service';
+import { validateSchema } from '../validation/joi-middleware';
+import { bitcoinUpdateSchema } from '../validation/schemas';
 
 const router = express.Router();
 
-router.put('/', (req, res) => {
+router.put('/', validateSchema(bitcoinUpdateSchema), (req, res) => {
   const { price } = req.body;
 
   const updated = bitcoinService.update(price);

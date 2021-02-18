@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 
 export const validateSchema = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    loggerService.log(`Validation started`, '[Validation Middleware]');
+    loggerService.log(`Validation started`, 'Validation Middleware');
 
     const { error } = schema.validate(req.body, { abortEarly: false });
     const valid = error === undefined;

@@ -57,6 +57,11 @@ router.post('/:id/usd', validateSchema(usdSchema), (req, res) => {
 
     res.json(updated);
   } catch (e) {
+    loggerService.error(
+      `Failed to ${action} ${amount}$`,
+      e.message,
+      'Users Controller'
+    );
     res.status(403).send({ message: e.message });
   }
 });
@@ -77,6 +82,11 @@ router.post('/:id/bitcoins', validateSchema(bitcoinSchema), (req, res) => {
 
     res.json(updated);
   } catch (e) {
+    loggerService.error(
+      `Failed to ${action} ${amount} bitcoins`,
+      e.message,
+      'Users Controller'
+    );
     res.status(403).send({ message: e.message });
   }
 });

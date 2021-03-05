@@ -6,20 +6,19 @@ export class UsersRepository {
   users: User[] = [];
 
   findById(id: string): User {
-    return this.users.find((user) => (user.id = id));
+    const user = this.users.find((user) => user.id === id);
+    return user ? { ...user } : undefined;
   }
 
-  update(id: string, params: Partial<UserInput>) {
-    loggerService.log(`Updating user ${id}`, 'Users Repository');
+  save(updatedUser: User) {
+    loggerService.log(`Saving user ${updatedUser.id}`, 'Users Repository');
+
+    updatedUser.updatedAt = new Date();
 
     this.users = this.users.map((user) => {
-      if (user.id === id) {
+      if (user.id === updatedUser.id) {
         return {
-          ...user,
-          name: params.name ?? user.name,
-          username: params.username ?? user.username,
-          email: params.email ?? user.email,
-          updatedAt: new Date(),
+          ...updatedUser,
         };
       }
       return user;
@@ -36,7 +35,7 @@ export class UsersRepository {
       ...params,
       id: uuid(),
       bitcoinAmount: 0,
-      usdBalance: 100,
+      usdBalance: 0,
       createdAt: new Date(),
       updatedAt: null,
     };

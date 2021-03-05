@@ -104,13 +104,13 @@ router.get('/:id/balance', (req, res) => {
 router.put('/:id', validateSchema(updateUserSchema), (req, res) => {
   const { name, username, email } = req.body;
 
-  usersRepository.update(req.params.id, {
-    name,
-    username,
-    email,
-  });
-
   const user = usersRepository.findById(req.params.id);
+
+  user.name = name ?? user.name;
+  user.username = username ?? user.username;
+  user.email = email ?? user.email;
+
+  usersRepository.save(user);
 
   res.json(user);
 });
@@ -118,7 +118,7 @@ router.put('/:id', validateSchema(updateUserSchema), (req, res) => {
 router.get('/:id', (req, res) => {
   const user = usersRepository.findById(req.params.id);
 
-  res.send(user);
+  res.json(user);
 });
 
 export default router;

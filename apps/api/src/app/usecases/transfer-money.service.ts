@@ -14,8 +14,9 @@ export class TransferMoneyService {
     const account = new AccountEntity(user.id, MoneyEntity.of(user.usdBalance));
 
     // update user balance
-    user.usdBalance = account.deposit(MoneyEntity.of(amount)).amount.toNumber();
-    user.updatedAt = new Date();
+    user.usdBalance = account.deposit(MoneyEntity.of(amount)).toNumber();
+
+    usersRepository.save(user);
 
     return user;
   }
@@ -32,8 +33,9 @@ export class TransferMoneyService {
       throw new NotEnoughMoneyException('Not enough money');
     }
 
-    user.usdBalance = updated.amount.toNumber();
-    user.updatedAt = new Date();
+    user.usdBalance = updated.toNumber();
+
+    usersRepository.save(user);
 
     return user;
   }

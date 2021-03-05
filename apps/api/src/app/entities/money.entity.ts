@@ -27,6 +27,10 @@ export class MoneyEntity {
     return this.amount.comparedTo(0) >= 0;
   }
 
+  toNumber() {
+    return this.amount.toNumber();
+  }
+
   static minus(a: MoneyEntity, b: MoneyEntity) {
     return new MoneyEntity(a.amount.minus(b.amount));
   }

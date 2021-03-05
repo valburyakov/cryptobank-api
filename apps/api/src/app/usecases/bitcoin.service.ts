@@ -50,12 +50,14 @@ export class BitcoinService {
     );
 
     if (balanceAfterBuy.isPositiveOrZero()) {
-      user.usdBalance = balanceAfterBuy.amount.toNumber();
+      user.usdBalance = balanceAfterBuy.toNumber();
       user.bitcoinAmount = MoneyEntity.add(
         MoneyEntity.of(user.bitcoinAmount),
         bitcoinOperation.amount
-      ).amount.toNumber();
-      user.updatedAt = new Date();
+      ).toNumber();
+
+      this.usersRepository.save(user);
+
       return user;
     } else {
       throw new NotEnoughMoneyException('Not enough money to buy');
@@ -87,9 +89,11 @@ export class BitcoinService {
       user.usdBalance = MoneyEntity.add(
         MoneyEntity.of(user.usdBalance),
         bitcoinSellPrice
-      ).amount.toNumber();
-      user.bitcoinAmount = bitcoinAfterSell.amount.toNumber();
-      user.updatedAt = new Date();
+      ).toNumber();
+      user.bitcoinAmount = bitcoinAfterSell.toNumber();
+
+      this.usersRepository.save(user);
+
       return user;
     } else {
       throw new NotEnoughBitcoinsException('Not enough bitcoins to sell');
@@ -112,7 +116,7 @@ export class BitcoinService {
       bitcoinOperation.calculateTotal()
     );
 
-    return total.amount.toNumber();
+    return total.toNumber();
   }
 }
 

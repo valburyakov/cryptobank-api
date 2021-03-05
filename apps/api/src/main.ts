@@ -26,6 +26,23 @@ app.use((req, res, next) => {
   });
 });
 
+/** Log the request */
+app.use((req, res, next) => {
+  /** Log the req */
+  loggerService.log(
+    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
+  );
+
+  res.on('finish', () => {
+    /** Log the res */
+    loggerService.log(
+      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`
+    );
+  });
+
+  next();
+});
+
 app.use('/api/users', usersController);
 app.use('/api/bitcoin', bitcoinController);
 

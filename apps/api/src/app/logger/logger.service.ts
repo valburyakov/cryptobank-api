@@ -3,7 +3,7 @@ import cls from 'cls-hooked';
 import { APP_ID, LOGGER_ID } from './logger.constants';
 
 const logger = pinoLogger({
-  prettyPrint: true,
+  prettyPrint: process.env.NODE_ENV === 'development',
 });
 
 export class PinoLoggerService {

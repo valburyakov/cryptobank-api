@@ -48,7 +48,7 @@ app.use('/api/bitcoin', bitcoinController);
 
 app.use(errorMiddleware);
 
-const port = process.env.port || 4000;
+const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
   loggerService.log(`Listening at http://localhost:${port}/api`);
 });

@@ -1,0 +1,11 @@
+.git
+node_modules
+Dockerfile
+dist
+
+# IntelliJ project files
+.idea
+.vscode
+*.iml
+out
+gen

@@ -18,7 +18,8 @@
             "tsConfig": "apps/api/tsconfig.app.json",
             "assets": [
               "apps/api/src/assets"
-            ]
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {

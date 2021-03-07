@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - apps/api/**
 
 jobs:
   build-and-deploy:
@@ -15,7 +17,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
             node-version: "14"
-      - name: Prepare and deploy
+      - name: Lint and Build
         run: |
           npm ci
           npm run lint

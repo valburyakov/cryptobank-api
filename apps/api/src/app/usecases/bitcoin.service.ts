@@ -12,6 +12,7 @@ import {
 import { BitcoinEntity } from '../entities/bitcoin.entity';
 import { User } from '../models/user.nodel';
 import { loggerService } from '../logger/logger.service';
+import { forbidden } from '@hapi/boom';
 
 export class BitcoinService {
   constructor(
@@ -96,7 +97,7 @@ export class BitcoinService {
 
       return user;
     } else {
-      throw new NotEnoughBitcoinsException('Not enough bitcoins to sell');
+      throw forbidden('Not enough bitcoins to sell');
     }
   }
 

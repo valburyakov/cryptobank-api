@@ -16,8 +16,6 @@ const router = express.Router();
 router.post('/', validateSchema(userSchema), (req, res) => {
   const { name, username, email } = req.body;
 
-  loggerService.log('POST Users started', 'Users Controller');
-
   const createdUser = usersRepository.add({
     name,
     username,
@@ -28,8 +26,6 @@ router.post('/', validateSchema(userSchema), (req, res) => {
 });
 
 router.use('/:id', (req, res, next) => {
-  loggerService.log(`UserId middleware: checking user`, 'Users Controller');
-
   const user = usersRepository.findById(req.params.id);
 
   if (user) {
@@ -44,11 +40,6 @@ router.use('/:id', (req, res, next) => {
 router.post('/:id/usd', validateSchema(usdSchema), (req, res) => {
   const { amount, action } = req.body;
 
-  loggerService.log(
-    `POST users/usd started: ${action} ${amount}$`,
-    'Users Controller'
-  );
-
   try {
     const updated =
       action === 'deposit'
@@ -62,17 +53,13 @@ router.post('/:id/usd', validateSchema(usdSchema), (req, res) => {
       e.message,
       'Users Controller'
     );
-    res.status(403).send({ message: e.message });
+
+    throw e;
   }
 });
 
 router.post('/:id/bitcoins', validateSchema(bitcoinSchema), (req, res) => {
   const { amount, action } = req.body;
-
-  loggerService.log(
-    `POST users/bitcoins started: ${action} ${amount}`,
-    'Users Controller'
-  );
 
   try {
     const updated =
@@ -87,13 +74,11 @@ router.post('/:id/bitcoins', validateSchema(bitcoinSchema), (req, res) => {
       e.message,
       'Users Controller'
     );
-    res.status(403).send({ message: e.message });
+    throw e;
   }
 });
 
 router.get('/:id/balance', (req, res) => {
-  loggerService.log(`Get users/balance started`, 'Users Controller');
-
   const balance = bitcoinService.calculateBalance(req.params.id);
 
   res.json({

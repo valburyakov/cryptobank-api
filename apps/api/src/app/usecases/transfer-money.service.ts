@@ -3,6 +3,7 @@ import { AccountEntity } from '../entities/account.entity';
 import { MoneyEntity } from '../entities/money.entity';
 import { NotEnoughMoneyException } from '../errors/custom-errors';
 import { loggerService } from '../logger/logger.service';
+import { forbidden } from '@hapi/boom';
 
 export class TransferMoneyService {
   constructor(private readonly usersRepository: UsersRepository) {}
@@ -30,7 +31,7 @@ export class TransferMoneyService {
     const updated = account.withdraw(MoneyEntity.of(amount));
 
     if (!updated) {
-      throw new NotEnoughMoneyException('Not enough money');
+      throw forbidden('Not enough money');
     }
 
     user.usdBalance = updated.toNumber();

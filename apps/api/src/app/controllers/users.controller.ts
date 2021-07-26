@@ -25,6 +25,12 @@ router.post('/', validateSchema(userSchema), (req, res) => {
   res.json(createdUser);
 });
 
+router.get('/', (req, res) => {
+  const users = usersRepository.getAll();
+
+  res.json(users);
+})
+
 router.use('/:id', (req, res, next) => {
   const user = usersRepository.findById(req.params.id);
 

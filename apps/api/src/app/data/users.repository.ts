@@ -45,6 +45,12 @@ export class UsersRepository {
 
     return newUser;
   }
+
+
+  // TODO add filters
+  getAll(): User[] {
+    return this.users;
+  }
 }
 
 export const usersRepository = new UsersRepository();

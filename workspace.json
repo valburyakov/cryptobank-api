@@ -8,7 +8,7 @@
       "prefix": "api",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
+          "executor": "@nrwl/node:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api",
@@ -32,7 +32,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "api:build"
           }
@@ -48,7 +48,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/api"],
           "options": {
-            "jestConfig": "apps/api/jest.config.js",
+            "jestConfig": "apps/api/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -61,7 +61,7 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/web:build",
+          "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/web",
@@ -72,7 +72,8 @@
             "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
             "styles": ["apps/web/src/styles.scss"],
             "scripts": [],
-            "webpackConfig": "@nrwl/react/plugins/webpack"
+            "webpackConfig": "@nrwl/react/plugins/webpack",
+            "postcssConfig": "apps/web/postcss.config.js"
           },
           "configurations": {
             "production": {
@@ -110,8 +111,12 @@
             "production": {
               "buildTarget": "web:build:production",
               "hmr": false
+            },
+            "development": {
+              "buildTarget": "web:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
@@ -124,7 +129,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/web"],
           "options": {
-            "jestConfig": "apps/web/jest.config.js",
+            "jestConfig": "apps/web/jest.config.ts",
             "passWithNoTests": true
           }
         }

@@ -1,6 +1,7 @@
 {
   "name": "crypto-bank",
   "version": "0.0.0",
+  "homepage": "https://valburyakov.github.io/cryptobank-api",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -93,6 +94,5 @@
     "ts-jest": "27.1.4",
     "ts-node": "10.8.1",
     "typescript": "4.7.4"
-  },
-  "homepage": "https://valburyakov.github.io/cryptobank-api"
+  }
 }

@@ -24,7 +24,7 @@ jobs:
         run: |
           npm ci
           npm run lint -- web
-          npm run build -- web --prod
+          npm run build -- web --prod --baseHref=/cryptobank-api/
       - name: deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:

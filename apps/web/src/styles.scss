@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@tailwind components;
 @tailwind base;
+@tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .nav-item {
+    @apply text-purple-800 hover:text-purple-600 cursor-pointer
+  }
+}

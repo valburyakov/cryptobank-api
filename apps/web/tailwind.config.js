@@ -1,11 +1,10 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/react/tailwind');
 
 module.exports = {
-  purge: [
+  content: [
     'apps/web/src/**/*.{js,jsx,ts,tsx}',
-    createGlobPatternsForDependencies(__dirname),
+    ...createGlobPatternsForDependencies(__dirname),
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
   },

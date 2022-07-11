@@ -8,6 +8,7 @@ on:
       - apps/api/**
       - package.json
       - workspace.json
+      - .github/workflows/**
 
 jobs:
   build-and-deploy:

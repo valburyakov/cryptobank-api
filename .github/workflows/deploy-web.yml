@@ -1,4 +1,4 @@
-name: Build API and Deploy
+name: Build Web and Deploy
 
 on:
   push:
@@ -8,9 +8,10 @@ on:
       - apps/web/**
       - package.json
       - workspace.json
+      - .github/workflows/**
 
 jobs:
-  build-and-deploy:
+  web-build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

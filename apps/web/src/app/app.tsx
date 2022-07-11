@@ -1,33 +1,31 @@
 import '../styles.scss';
+import { CryptoIcon } from '../components/crypto-icon';
 
 export function App() {
   return (
-    <div className="bg-gray-50">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          <span className="block">Ready to dive in?</span>
-          <span className="block text-indigo-600">
-            Start your free trial today.
-          </span>
-        </h2>
-        <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-          <div className="inline-flex rounded-md shadow">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              Get started
-            </a>
+    <div className="container mx-auto">
+      <div className="flex flex-row flex-wrap py-4">
+        <aside className="w-full sm:w-1/3 md:w-1/4 px-2">
+          <div className="sticky top-0 p-4 w-full">
+            <ul className="flex flex-col overflow-hidden">
+              <li className="nav-item">
+                <CryptoIcon name="bitcoin" />
+              </li>
+              <li className="nav-item">usd</li>
+              <li className="nav-item">Users</li>
+            </ul>
           </div>
-          <div className="ml-3 inline-flex rounded-md shadow">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"
-            >
-              Learn more
-            </a>
-          </div>
-        </div>
+        </aside>
+        <main role="main" className="w-full sm:w-2/3 md:w-3/4 pt-1 px-2">
+          <h1 className="text-2xl" id="home">
+            Main Content
+          </h1>
+          <p>
+            Let's look at the base Tailwind classes that are used for this
+            layout. There are 2 columns. The left sidebar (aside), and the main
+            content area on the right.{' '}
+          </p>
+        </main>
       </div>
     </div>
   );

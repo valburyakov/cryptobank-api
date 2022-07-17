@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import cls from 'cls-hooked';
 import { v4 as uuid } from 'uuid';
 import usersController from './app/controllers/users.controller';
@@ -16,6 +17,7 @@ loggerService.log('APP INIT');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use((req, res, next) => {
   const traceId = uuid();
@@ -30,7 +32,9 @@ app.use((req, res, next) => {
 /** Log the request */
 app.use((req, res, next) => {
   /** Log the req */
-  loggerService.log(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
+  loggerService.log(
+    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
+  );
 
   res.on('finish', () => {
     /** Log the res */

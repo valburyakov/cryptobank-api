@@ -10,6 +10,9 @@ on:
       - workspace.json
       - .github/workflows/**
 
+env:
+  NX_API_URL: https://cryptobank-test-api.herokuapp.com
+
 jobs:
   web-build-and-deploy:
     runs-on: ubuntu-latest

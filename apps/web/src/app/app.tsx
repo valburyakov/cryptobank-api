@@ -18,25 +18,23 @@ export function App() {
   const { isLoading, error, data } = useQuery<User[], Error>('users', getUsers);
 
   return (
-    <>
-      <Header />
-      <div className="container mx-auto">
-        <div className="flex flex-row flex-wrap py-4">
-          <main role="main" className="w-full h-full">
-            <h1 className="text-2xl" id="home">
-              Main Content
-            </h1>
-            {isLoading ? (
-              <p>Загрузка...</p>
-            ) : error ? (
-              <p>Ошибка: {error.message}</p>
-            ) : (
-              <pre>{JSON.stringify(data)}</pre>
-            )}
-          </main>
-        </div>
+    <div className="container flex mx-auto h-screen overflow-hidden bg-gray-100">
+      <div className="flex flex-col w-full overflow-hidden">
+        <Header />
+        <main role="main" className="flex-1 relative overflow-y-auto w-full">
+          <h1 className="text-2xl p-2" id="home">
+            Main Content
+          </h1>
+          {isLoading ? (
+            <p>Загрузка...</p>
+          ) : error ? (
+            <p>Ошибка: {error.message}</p>
+          ) : (
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+          )}
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 
